@@ -32,7 +32,7 @@ export const LoginPage = () => {
                 disabled={!email || !password}
                 onClick={handleLogin}>Log In</button>
             <button onClick={() => history.push('/forgot-password')}>Forgot your password?</button>
-            <button onClick={() => history.push('/signup')}>Don't have an account? Sign Up</button>
+            <button onClick={() => history.push('/register')}>Don't have an account? Sign Up</button>
         </div>
     )
 }
