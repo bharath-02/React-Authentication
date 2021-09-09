@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import { UserInfoPage } from './pages/UserInfoPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
+
+import { PrivateRoute } from './auth/PrivateRoute';
 
 export const Routes = () => {
     return (
         <Router>
             <Switch>
-                <Route path="/" exact>
+                <PrivateRoute path="/" exact>
                     <UserInfoPage />
-                </Route>
+                </PrivateRoute>
                 <Route path="/login">
                     <LoginPage />
                 </Route>
