@@ -5,7 +5,7 @@ import cors from 'cors';
 import routes from './src/routes/routeHandler.js';
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // mongoose connection
 const connStr = `mongodb+srv://user-admin:Password01@cluster0.97zvf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
