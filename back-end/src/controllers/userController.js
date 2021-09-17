@@ -42,7 +42,7 @@ export const SignupController = async (req, res) => {
                 if (err) {
                     return res.status (500).json (err);
                 }
-                return res.status (200).json ({ data: token });
+                return res.status (200).json ({ token });
             });
         }
     });
@@ -63,13 +63,13 @@ export const LoginController = async (req, res) => {
     const isCorrect = await bcrypt.compare (password, passwordHash);
 
     if (!isCorrect) {
-        return res.status (401).json ({ message: 'Password is not correct' })
+        return res.status (401).json ({ message: 'Password is not correct' });
     } else {
         jwt.sign ({ id, username, email, isVerified, info }, process.env.JWT_SECRET_KEY, { expiresIn: '2d' }, (err, token) => {
             if (err) {
                 return res.status (500).send (err);
             }
-            return res.status (200).json ({ data: token });
-        })
+            return res.status (200).json ({ token });
+        });
     }
 }
