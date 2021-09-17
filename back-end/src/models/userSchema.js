@@ -29,4 +29,4 @@ export const UserSchema= new Schema({
     isVerified: {
         type: Boolean
     }
-})
+});
