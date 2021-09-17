@@ -12,7 +12,7 @@ export const UserController = async (req, res) => {
     const user = await User.findOne ({ email });
 
     if (user) {
-        return res.status (409).json ({error: 'User already exists with this email'});
+        return res.status (409).json ({error: 'User with this email already exists'});
     }
 
     const passwordHash = await bcrypt.hash (password, 10);
@@ -31,12 +31,30 @@ export const UserController = async (req, res) => {
         isVerified: false
     });
 
-    newUser.save ((err, user) => {
+    const {id} = newUser;
+
+    newUser.save ((err) => {
         if (err) {
             res.send (err);
         } else {
-            res.json ({ data: user })
+            jwt.sign ({
+                id,
+                email,
+                username,
+                info: startingInfo,
+                isVerified: false
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: '2d'
+            },
+            (err, token) => {
+                if (err) {
+                    return res.status (500).send (err);
+                }
+                return res.status (200).json({ token })
+            });
         }
-    })
+    });
 
 }
