@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ObjectID } from 'mongodb';
 
 import { UserSchema } from '../models/userSchema';
 
@@ -79,7 +80,7 @@ export const UpdateUsersController = async (req, res) => {
     const { authorization } = req.headers;
     const { userId } = req.params;
 
-    const updates = ({
+    const updates = (({
         favouriteFood,
         hairColor,
         bio
@@ -87,7 +88,7 @@ export const UpdateUsersController = async (req, res) => {
         favouriteFood,
         hairColor,
         bio
-    }) (req.body);
+    })) (req.body);
 
     if (!authorization) {
         return res.status (401).json({ message: 'No authorization headers sent' });
@@ -101,12 +102,12 @@ export const UpdateUsersController = async (req, res) => {
         }
 
         const { id } = decoded;
-
+        
         if (id !== userId) {
             return res.status (403).json ({ message: "Not allowed to update other user's data" });
         }
 
-        await User.findOneAndUpdate ({ _id: userId }, updates, { new: true, useFindAndModify: false }, (err, user) => {
+        User.findOneAndUpdate ({ _id: id }, { info: updates }, { new: true, useFindAndModify: false }, (err, user) => {
             if (err) {
                 return res.status (500).json ({message: `Failed to update user info ${err}`});
             } else {
